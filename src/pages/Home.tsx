@@ -8,14 +8,29 @@ import { useCart } from '@/context/CartContext'
 import { useState } from 'react'
 
 const BANNERS = [
-  { gradient: 'from-primary-700 to-primary-500', badge: 'تا ۴۰٪ تخفیف', title: 'محصولات تخصصی\nمراقبت پوست', sub: 'بهترین برندها با ضمانت اصالت', img: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400', to: '/products' },
-  { gradient: 'from-cyan-700 to-teal-500', badge: 'جدیدترین مکمل‌ها', title: 'مکمل‌های غذایی\nپریمیوم', sub: 'با تأیید سازمان غذا و دارو', img: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400', to: '/products' },
+  {
+    gradient: 'from-emerald-800 to-emerald-600',
+    badge: 'تا ۴۰٪ تخفیف ویژه',
+    title: 'محصولات تخصصی مراقبت پوست',
+    sub: 'بهترین برندها با ضمانت اصالت کالا',
+    img: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80',
+    to: '/products',
+  },
+  {
+    gradient: 'from-cyan-800 to-teal-600',
+    badge: 'جدیدترین مکمل‌ها',
+    title: 'مکمل‌های غذایی پریمیوم',
+    sub: 'با تأیید سازمان غذا و دارو',
+    img: 'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&q=80',
+    to: '/products',
+  },
 ]
+
 const CAT_ICONS: Record<string, { icon: string; bg: string; color: string }> = {
-  'skin-care':   { icon: 'fa-spa',      bg: 'bg-emerald-100', color: 'text-emerald-600' },
-  'hair-care':   { icon: 'fa-scissors', bg: 'bg-cyan-100',    color: 'text-cyan-600'    },
-  'supplements': { icon: 'fa-capsules', bg: 'bg-orange-100',  color: 'text-orange-600'  },
-  'sun-care':    { icon: 'fa-sun',      bg: 'bg-yellow-100',  color: 'text-yellow-600'  },
+  'skin-care':   { icon: 'fa-spa',      bg: 'bg-emerald-100', color: 'text-emerald-700' },
+  'hair-care':   { icon: 'fa-scissors', bg: 'bg-cyan-100',    color: 'text-cyan-700'    },
+  'supplements': { icon: 'fa-capsules', bg: 'bg-orange-100',  color: 'text-orange-700'  },
+  'sun-care':    { icon: 'fa-sun',      bg: 'bg-yellow-100',  color: 'text-yellow-700'  },
 }
 
 export default function Home() {
@@ -25,27 +40,45 @@ export default function Home() {
   const { data: catData } = useQuery('categories', () => categoryAPI.list())
   const { addToCart } = useCart()
 
-  const featured   = featData?.data?.data || []
+  const featured    = featData?.data?.data || []
   const bestsellers = bestData?.data?.data || []
   const categories  = catData?.data?.data || []
-  const banner = BANNERS[bannerIdx]
+  const banner      = BANNERS[bannerIdx]
 
   return (
-    <div className="pb-20 sm:pb-8">
+    <div className="pb-20 sm:pb-10">
 
-      {/* Hero Banner */}
-      <section className="px-4 pt-4">
-        <div className={`bg-gradient-to-l ${banner.gradient} rounded-3xl overflow-hidden relative`}>
-          <div className="p-5 pb-0 flex justify-between items-end">
+      {/* ── HERO BANNER ── */}
+      <section className="px-4 pt-5">
+        <div className={`relative bg-gradient-to-l ${banner.gradient} rounded-3xl overflow-hidden h-52 sm:h-64`}>
+          {/* Background image */}
+          <img
+            src={banner.img}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-luminosity"
+          />
+          {/* Content */}
+          <div className="relative z-10 flex items-center h-full px-6 gap-4">
             <div className="flex-1">
-              <span className="inline-block bg-white/25 text-white text-xs px-3 py-1 rounded-full mb-3">{banner.badge}</span>
-              <h2 className="text-white text-xl font-black leading-7 whitespace-pre-line">{banner.title}</h2>
-              <p className="text-white/75 text-xs mt-2 mb-4">{banner.sub}</p>
-              <Link to={banner.to} className="inline-block bg-white text-primary-700 font-bold text-sm px-5 py-2.5 rounded-2xl mb-5 shadow-lg">مشاهده محصولات</Link>
+              <span className="inline-block bg-white/20 text-white text-xs px-3 py-1 rounded-full mb-3">
+                {banner.badge}
+              </span>
+              <h2 className="text-white text-xl sm:text-2xl font-black leading-7 mb-2">
+                {banner.title}
+              </h2>
+              <p className="text-white/70 text-xs mb-4">{banner.sub}</p>
+              <Link to={banner.to}
+                className="inline-block bg-white text-emerald-700 font-bold text-sm px-5 py-2.5 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                مشاهده محصولات
+              </Link>
             </div>
-            <img src={banner.img} className="w-36 h-36 object-cover rounded-tl-3xl flex-shrink-0"/>
+            {/* Product image - visible on larger screens */}
+            <div className="hidden sm:block w-40 h-40 rounded-2xl overflow-hidden flex-shrink-0 shadow-xl">
+              <img src={banner.img} alt="" className="w-full h-full object-cover"/>
+            </div>
           </div>
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+          {/* Dots */}
+          <div className="absolute bottom-3 right-1/2 translate-x-1/2 flex gap-1.5 z-10">
             {BANNERS.map((_, i) => (
               <button key={i} onClick={() => setBannerIdx(i)}
                 className={`rounded-full transition-all ${i === bannerIdx ? 'w-5 h-1.5 bg-white' : 'w-1.5 h-1.5 bg-white/40'}`}/>
@@ -54,24 +87,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Categories */}
+      {/* ── CATEGORIES ── */}
       {categories.length > 0 && (
-        <section className="mt-7">
+        <section className="mt-8">
           <div className="flex items-center justify-between px-4 mb-4">
-            <h3 className="section-title">دسته‌بندی‌ها</h3>
-            <Link to="/products" className="text-primary-600 text-xs font-medium">مشاهده همه</Link>
+            <h3 className="text-base font-black text-gray-800">دسته‌بندی‌ها</h3>
+            <Link to="/products" className="text-emerald-600 text-xs font-semibold">مشاهده همه</Link>
           </div>
-          {/* mobile: scroll / desktop: grid */}
           <div className="flex gap-3 overflow-x-auto sm:grid sm:grid-cols-5 sm:overflow-visible px-4 hide-scrollbar pb-1">
             {categories.map((cat: any) => {
-              const style = CAT_ICONS[cat.slug] || { icon: 'fa-tag', bg: 'bg-gray-100', color: 'text-gray-600' }
+              const s = CAT_ICONS[cat.slug] || { icon: 'fa-tag', bg: 'bg-gray-100', color: 'text-gray-600' }
               return (
                 <Link key={cat.id} to={`/products?categoryId=${cat.id}`}
-                  className="flex-shrink-0 sm:flex-shrink flex flex-col items-center gap-2 bg-white rounded-2xl px-4 py-3 shadow-sm border border-sage-100 min-w-[72px] hover:border-primary-300 transition-colors">
-                  <div className={`w-11 h-11 ${style.bg} rounded-xl flex items-center justify-center`}>
-                    <i className={`fa-solid ${style.icon} ${style.color}`}/>
+                  className="flex-shrink-0 sm:flex-shrink flex flex-col items-center gap-2 bg-white rounded-2xl px-4 py-3.5 shadow-sm border border-gray-100 min-w-[76px] hover:border-emerald-300 hover:shadow-md transition-all">
+                  <div className={`w-11 h-11 ${s.bg} rounded-xl flex items-center justify-center`}>
+                    <i className={`fa-solid ${s.icon} ${s.color} text-lg`}/>
                   </div>
-                  <span className="text-[11px] font-medium text-gray-700 whitespace-nowrap">{cat.name}</span>
+                  <span className="text-[11px] font-semibold text-gray-600 whitespace-nowrap text-center">{cat.name}</span>
                 </Link>
               )
             })}
@@ -79,13 +111,12 @@ export default function Home() {
         </section>
       )}
 
-      {/* Featured Products */}
-      <section className="mt-7 px-4">
+      {/* ── FEATURED PRODUCTS ── */}
+      <section className="mt-8 px-4">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="section-title">محصولات ویژه</h3>
-          <Link to="/products?isFeatured=true" className="text-primary-600 text-xs font-medium">مشاهده همه</Link>
+          <h3 className="text-base font-black text-gray-800">محصولات ویژه</h3>
+          <Link to="/products?isFeatured=true" className="text-emerald-600 text-xs font-semibold">مشاهده همه</Link>
         </div>
-        {/* mobile: 2col / tablet: 3col / desktop: 4col */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {featLoading
             ? [...Array(4)].map((_, i) => <ProductSkeleton key={i}/>)
@@ -94,9 +125,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Free shipping */}
+      {/* ── FREE SHIPPING BANNER ── */}
       <section className="px-4 mt-6">
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3.5 flex items-center gap-4">
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center gap-4">
           <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
             <i className="fa-solid fa-truck-fast text-xl text-amber-600"/>
           </div>
@@ -107,39 +138,53 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Bestsellers */}
-      <section className="mt-7">
+      {/* ── BESTSELLERS ── */}
+      <section className="mt-8">
         <div className="flex items-center justify-between px-4 mb-4">
-          <h3 className="section-title">پرفروش‌ترین‌ها</h3>
-          <Link to="/products?sortBy=salesCount&sortOrder=desc" className="text-primary-600 text-xs font-medium">مشاهده همه</Link>
+          <h3 className="text-base font-black text-gray-800">پرفروش‌ترین‌ها</h3>
+          <Link to="/products?sortBy=salesCount&sortOrder=desc" className="text-emerald-600 text-xs font-semibold">
+            مشاهده همه
+          </Link>
         </div>
-        {/* mobile: horizontal scroll / desktop: grid */}
-        <div className="sm:px-4">
-          <div className="flex gap-3 overflow-x-auto sm:grid sm:grid-cols-4 lg:grid-cols-6 sm:overflow-visible px-4 sm:px-0 hide-scrollbar pb-2">
-            {bestLoading
-              ? [...Array(4)].map((_, i) => <div key={i} className="flex-shrink-0 w-36 h-52 bg-white rounded-2xl animate-pulse"/>)
-              : bestsellers.map((p: any) => (
+        <div className="flex gap-3 overflow-x-auto sm:grid sm:grid-cols-4 lg:grid-cols-6 sm:overflow-visible px-4 hide-scrollbar pb-2">
+          {bestLoading
+            ? [...Array(4)].map((_, i) => (
+                <div key={i} className="flex-shrink-0 w-36 sm:w-auto h-52 bg-white rounded-2xl animate-pulse"/>
+              ))
+            : bestsellers.map((p: any) => (
                 <Link key={p.id} to={`/products/${p.slug}`}
-                  className="flex-shrink-0 sm:flex-shrink w-36 sm:w-auto bg-white rounded-2xl overflow-hidden shadow-sm border border-sage-100 hover:shadow-md transition-shadow">
-                  <img src={getImageUrl(p.images?.[0])} className="w-full h-28 object-cover"/>
+                  className="flex-shrink-0 sm:flex-shrink w-36 sm:w-auto bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                  <div className="relative h-28 overflow-hidden bg-gray-50">
+                    <img
+                      src={getImageUrl(p.images?.[0])}
+                      alt={p.name}
+                      onError={e => { (e.target as HTMLImageElement).src = 'https://placehold.co/200x200/f0fdf4/059669?text=محصول' }}
+                      className="w-full h-full object-cover"
+                    />
+                    {p.discountPercent && (
+                      <span className="absolute top-1.5 right-1.5 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+                        {p.discountPercent}٪
+                      </span>
+                    )}
+                  </div>
                   <div className="p-2.5">
-                    <p className="text-[11px] font-semibold text-gray-700 line-clamp-2 leading-4">{p.name}</p>
-                    <p className="text-primary-600 font-bold text-xs mt-1.5">{formatPrice(p.price)}</p>
-                    <button onClick={e => { e.preventDefault(); addToCart(p.id) }}
-                      className="w-full mt-2 bg-primary-50 text-primary-700 text-[10px] font-bold py-1.5 rounded-lg hover:bg-primary-100 transition-colors">
+                    <p className="text-[11px] font-semibold text-gray-700 line-clamp-2 leading-4 mb-1.5">{p.name}</p>
+                    <p className="text-emerald-600 font-bold text-xs">{formatPrice(p.price)}</p>
+                    <button
+                      onClick={e => { e.preventDefault(); addToCart(p.id) }}
+                      className="w-full mt-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-[10px] font-bold py-1.5 rounded-lg transition-colors">
                       افزودن
                     </button>
                   </div>
                 </Link>
               ))
-            }
-          </div>
+          }
         </div>
       </section>
 
-      {/* Chat */}
+      {/* ── CHAT BANNER ── */}
       <section className="px-4 mt-6">
-        <div className="bg-gradient-to-l from-primary-700 to-primary-600 rounded-2xl px-4 py-4 flex items-center gap-4">
+        <div className="bg-gradient-to-l from-emerald-700 to-emerald-600 rounded-2xl p-4 flex items-center gap-4">
           <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
             <i className="fa-solid fa-headset text-xl text-white"/>
           </div>
@@ -147,7 +192,9 @@ export default function Home() {
             <p className="font-bold text-white text-sm">چت آنلاین با داروساز</p>
             <p className="text-white/70 text-xs mt-0.5">پاسخ سوالات دارویی ۲۴/۷</p>
           </div>
-          <button className="bg-white text-primary-700 font-bold text-xs px-4 py-2 rounded-xl flex-shrink-0">شروع چت</button>
+          <button className="bg-white text-emerald-700 font-bold text-xs px-4 py-2 rounded-xl flex-shrink-0 hover:bg-emerald-50 transition-colors">
+            شروع چت
+          </button>
         </div>
       </section>
 
