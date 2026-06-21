@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { font-family: 'Vazirmatn', sans-serif; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: #f4f7f5; color: #1a2e25; direction: rtl; }
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #f1f5f3; }
+::-webkit-scrollbar-thumb { background: #3dba8c; border-radius: 4px; }
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-all duration-200 active:scale-95;
+  }
+  .btn-outline {
+    @apply border border-primary-600 text-primary-600 hover:bg-primary-50 font-semibold px-5 py-2.5 rounded-xl transition-all duration-200;
+  }
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-sage-100;
+  }
+  .input-field {
+    @apply w-full bg-sage-50 border border-sage-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-primary-400 focus:bg-white transition-all duration-200;
+  }
+  .badge-discount {
+    @apply absolute top-2.5 right-2.5 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full;
+  }
+  .section-title {
+    @apply text-lg font-bold text-gray-800;
+  }
+}
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.price-tag { font-feature-settings: 'tnum'; }
