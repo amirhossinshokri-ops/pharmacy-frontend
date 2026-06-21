@@ -13,7 +13,7 @@ const BANNERS = [
     badge: 'تا ۴۰٪ تخفیف ویژه',
     title: 'محصولات تخصصی مراقبت پوست',
     sub: 'بهترین برندها با ضمانت اصالت کالا',
-    img: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80',
+    img: 'https://images.unsplash.com/photo-1612817288484-6f916006741a?w=500',
     to: '/products',
   },
   {
